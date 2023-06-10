@@ -2,6 +2,7 @@ using InvestApp.AutoMapper;
 using InvestApp.DataAccess;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using InvestApp.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSql(builder.Configuration.GetConnectionString("InvestConnectionString"));
 builder.Services.AddRepositories();
+builder.Services.AddInvestServices();
 builder.Services.AddMapper();
 
 var app = builder.Build();

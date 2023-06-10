@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InvestApp.DataAccess\InvestApp.DataAccess.csproj" />
+    <ProjectReference Include="..\InvestApp.Infrastructure\InvestApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

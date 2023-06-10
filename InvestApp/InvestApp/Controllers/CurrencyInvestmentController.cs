@@ -1,8 +1,9 @@
-﻿using InvestApp.Core.Models;
+﻿using InvestApp.Core.Constants;
+using InvestApp.Core.Models;
 using InvestApp.DataAccess.Dtos;
 using InvestApp.DataAccess.Repositories;
+using InvestApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace InvestApp.Controllers
 {
@@ -10,12 +11,14 @@ namespace InvestApp.Controllers
     [ApiController]
     public class CurrencyInvestmentController : ControllerBase
     {
-        private static readonly HttpClient client = new HttpClient();
         private readonly ICurrencyInvestmentRepo _currencyInvestmentRepo;
+        private readonly ICurrencyService _currencyService;
 
-        public CurrencyInvestmentController(ICurrencyInvestmentRepo currencyInvestmentRepo)
+        public CurrencyInvestmentController(ICurrencyInvestmentRepo currencyInvestmentRepo, 
+            ICurrencyService currencyService)
         {
             _currencyInvestmentRepo = currencyInvestmentRepo;
+            _currencyService = currencyService;
         }
 
         [HttpPost("AddCurrencyInvestment")]
@@ -25,17 +28,11 @@ namespace InvestApp.Controllers
             return Ok();
         }
 
-        [HttpGet("GetHistoryForCurrency")]
-        public async Task<IActionResult> GetHistoryForCurrency()
+        [HttpGet("GetHistoryForCurrency/{currency}/{fromDate}/{toDate}")]
+        public async Task<ActionResult<CurrencyHistory>> GetHistoryForCurrency(
+            [FromRoute] Currencies currency, [FromRoute] DateTime fromDate, [FromRoute] DateTime toDate)
         {
-            //To do it doesnt work
-            var response = await client.GetAsync("https://api.nbp.pl/api/exchangerates/rates/a/gbp/2012-01-01/2012-01-31/?format=json");
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<IEnumerable<CurrencyHistory>>(responseString);
-
-
-            return Ok();
+            return Ok(await _currencyService.GetCurrencyHistory(currency, fromDate, toDate));
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace InvestApp.Core.Constants
+﻿using System.Runtime.Serialization;
+
+namespace InvestApp.Core.Constants
 {
     public enum Currencies
     {
