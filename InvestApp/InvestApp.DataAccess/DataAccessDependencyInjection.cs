@@ -15,6 +15,7 @@ namespace InvestApp.DataAccess
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICurrencyInvestmentRepo, CurrencyInvestmentRepo>();
+            services.AddScoped<IMetalInvestmentRepo, MetalInvestmentRepo>();
         }
     }
 }

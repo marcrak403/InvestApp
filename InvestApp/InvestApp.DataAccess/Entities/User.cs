@@ -25,7 +25,9 @@ namespace InvestApp.DataAccess.Entities
         [Required]
         [MaxLength(50)]
         public string Email { get; set; } = string.Empty;
-        public virtual IEnumerable<CurrencyInvestment> CurrencyInvestments { get; set; }  
+        public virtual IEnumerable<CurrencyInvestment> CurrencyInvestments { get; set; }
+        public virtual IEnumerable<MetalInvestment> MetalInvestments { get; set; }
+
 
     }
 }

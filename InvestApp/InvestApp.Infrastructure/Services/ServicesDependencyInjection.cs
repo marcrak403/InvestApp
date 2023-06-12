@@ -7,6 +7,7 @@ namespace InvestApp.Infrastructure.Services
         public static void AddInvestServices(this IServiceCollection services)
         {
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IMetalService, MetalService>();
         }
     }
 }

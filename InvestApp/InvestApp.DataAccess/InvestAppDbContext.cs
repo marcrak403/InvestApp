@@ -9,5 +9,6 @@ namespace InvestApp.DataAccess
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<CurrencyInvestment> CurrencyInvestments { get; set; }
+        public virtual DbSet<MetalInvestment> MetalInvestments { get; set; }
     }
 }

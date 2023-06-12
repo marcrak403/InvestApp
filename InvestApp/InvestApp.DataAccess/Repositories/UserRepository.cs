@@ -18,7 +18,9 @@ namespace InvestApp.DataAccess.Repositories
 
         public Task<User?> GetUserById(int id)
         {
-            return _context.Users.Include(p => p.CurrencyInvestments).FirstOrDefaultAsync(p => p.Id == id);
+            return _context.Users.Include(p => p.CurrencyInvestments)
+                .Include(p => p.MetalInvestments)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task RegisterUser(CreateUserDto createUserDto)

@@ -10,6 +10,7 @@ namespace InvestApp.AutoMapper
         {
             cfg.CreateMap<CreateUserDto, User>(MemberList.Destination);
             cfg.CreateMap<AddCurrencyInvestmentDto, CurrencyInvestment>(MemberList.Destination);
+            cfg.CreateMap<AddMetalInvestmentDto, MetalInvestment>(MemberList.Destination);
         }
     }
 }
