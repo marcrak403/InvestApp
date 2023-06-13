@@ -20,6 +20,8 @@ namespace InvestApp.DataAccess.Repositories
         {
             return _context.Users.Include(p => p.CurrencyInvestments)
                 .Include(p => p.MetalInvestments)
+                .Include(p => p.TotalAmountOfCurrencies)
+                .Include(p => p.TotalAmountOfMetals)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

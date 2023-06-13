@@ -4,6 +4,7 @@ using InvestApp.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvestApp.DataAccess.Migrations
 {
     [DbContext(typeof(InvestAppDbContext))]
-    partial class InvestAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230613222743_AddInvestedMoneyNewType")]
+    partial class AddInvestedMoneyNewType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,33 +112,6 @@ namespace InvestApp.DataAccess.Migrations
                     b.ToTable("TotalAmountOfCurrencies");
                 });
 
-            modelBuilder.Entity("InvestApp.DataAccess.Entities.TotalAmountOfMetal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AssignedToId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("InvestedMoney")
-                        .HasColumnType("float");
-
-                    b.Property<int>("MetalType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalAmount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignedToId");
-
-                    b.ToTable("TotalAmountOfMetals");
-                });
-
             modelBuilder.Entity("InvestApp.DataAccess.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -202,22 +178,9 @@ namespace InvestApp.DataAccess.Migrations
                     b.Navigation("AssignedTo");
                 });
 
-            modelBuilder.Entity("InvestApp.DataAccess.Entities.TotalAmountOfMetal", b =>
-                {
-                    b.HasOne("InvestApp.DataAccess.Entities.User", "AssignedTo")
-                        .WithMany("MetalInvestements")
-                        .HasForeignKey("AssignedToId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AssignedTo");
-                });
-
             modelBuilder.Entity("InvestApp.DataAccess.Entities.User", b =>
                 {
                     b.Navigation("CurrencyInvestments");
-
-                    b.Navigation("MetalInvestements");
 
                     b.Navigation("MetalInvestments");
 
