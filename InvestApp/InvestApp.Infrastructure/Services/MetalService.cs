@@ -1,5 +1,6 @@
 ﻿using InvestApp.Core.Constants;
 using InvestApp.Core.Models;
+using System.Collections;
 using System.Text.Json;
 
 namespace InvestApp.Infrastructure.Services
@@ -25,6 +26,18 @@ namespace InvestApp.Infrastructure.Services
                     string responseString = await response.Content.ReadAsStringAsync();
                     IEnumerable<GoldHistory> result = JsonSerializer.Deserialize<IEnumerable<GoldHistory>>(responseString, options);
                     return result;
+                case Metals.XPT:
+                case Metals.XAG:
+                case Metals.XPD:
+                    HttpResponseMessage responseOther =
+                        await client
+                            .GetAsync($"https://api.metalpriceapi.com/v1/timeframe?api_key=ebcca32bbd82a461956c594e82d13a87&start_date={fromDate.Date.ToString("yyyy-MM-dd")}&end_date={toDate.Date.ToString("yyyy-MM-dd")}&base=USD&currencies={metal}");
+
+                    string responseStringOther = await responseOther.Content.ReadAsStringAsync();
+                    MetalPriceApiHistory resultOther = JsonSerializer.Deserialize<MetalPriceApiHistory>(responseStringOther, options);
+                    ICollection<MetalPriceApiHistory> returnedList = new List<MetalPriceApiHistory>();
+                    returnedList.Add(resultOther);
+                    return returnedList;
             }
 
             return new List<MetalHistory>();

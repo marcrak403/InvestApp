@@ -2,6 +2,12 @@
 {
     public enum Metals
     {
-        Gold
+        Gold,
+        //Silver - srebro
+        XAG,
+        //Platyna
+        XPT,
+        //Pallad
+        XPD
     }
 }
