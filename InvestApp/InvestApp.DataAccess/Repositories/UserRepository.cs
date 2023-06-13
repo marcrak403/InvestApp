@@ -25,6 +25,12 @@ namespace InvestApp.DataAccess.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<User?> LoginUser(string mail, string password)
+        {
+            User? user = await _context.Users.FirstOrDefaultAsync(p => p.Email == mail && p.Password == password);
+            return user == null ? null : user;
+        }
+
         public async Task RegisterUser(CreateUserDto createUserDto)
         {
             if (createUserDto != null)

@@ -23,6 +23,12 @@ namespace InvestApp.Controllers
            return Ok();
         }
 
+        [HttpGet("LoginUser/{mail}/{password}")]
+        public async Task<ActionResult<User?>> RegisterUser(string mail, string password)
+        {
+            return Ok(await _userRepository.LoginUser(mail, password));
+        }
+
         [HttpGet("GetUserById/{id}")]
         public async Task<ActionResult<User>> GetUserById([FromRoute] int id)
         {
