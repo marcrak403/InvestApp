@@ -24,7 +24,7 @@ namespace InvestApp.Controllers
         }
 
         [HttpGet("LoginUser/{mail}/{password}")]
-        public async Task<ActionResult<User?>> RegisterUser(string mail, string password)
+        public async Task<ActionResult<User?>> LoginUser(string mail, string password)
         {
             return Ok(await _userRepository.LoginUser(mail, password));
         }
