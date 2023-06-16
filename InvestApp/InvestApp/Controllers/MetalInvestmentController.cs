@@ -28,6 +28,14 @@ namespace InvestApp.Controllers
             return Ok();
         }
 
+        [HttpDelete("SellMetal/{userId}/{metal}/{amount}")]
+        public async Task<IActionResult> SellCurrency([FromRoute] int userId,
+            [FromRoute] Metals metal, [FromRoute] int amount)
+        {
+            await _metalInvestmentRepo.SellMetalInvestment(userId, metal, amount);
+            return NoContent();
+        }
+
         [HttpGet("GetHistoryForMetal/{metal}/{fromDate}/{toDate}")]
         public async Task<ActionResult<IEnumerable<MetalHistory>>> GetHistoryForMetal(
             [FromRoute] Metals metal, [FromRoute] DateTime fromDate, [FromRoute] DateTime toDate)

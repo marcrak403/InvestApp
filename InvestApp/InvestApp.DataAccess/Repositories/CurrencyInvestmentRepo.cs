@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InvestApp.Core.Constants;
 using InvestApp.DataAccess.Dtos;
 using InvestApp.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,24 @@ namespace InvestApp.DataAccess.Repositories
 
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task SellCurrency(int userId, Currencies currency, int amount)
+        {
+           if (await _context.TotalAmountOfCurrencies.FirstOrDefaultAsync(p => p.AssignedToId == userId 
+            && p.Currency == currency) is not
+                TotalAmountOfCurrency totalAmountOfCurrency || totalAmountOfCurrency.TotalAmount < amount)
+            {
+                return;
+            }
+            totalAmountOfCurrency.TotalAmount -= amount;
+
+            if(totalAmountOfCurrency.TotalAmount == 0)
+            {
+                _context.TotalAmountOfCurrencies.Remove(totalAmountOfCurrency);
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

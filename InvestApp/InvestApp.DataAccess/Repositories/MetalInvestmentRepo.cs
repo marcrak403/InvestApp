@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using InvestApp.Core.Constants;
 using InvestApp.DataAccess.Dtos;
 using InvestApp.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,24 @@ namespace InvestApp.DataAccess.Repositories
                     InvestedMoney = addMetalInvestmentDto.Amount * Convert.ToDouble(addMetalInvestmentDto.ExchangeRate),
                     AssignedToId = addMetalInvestmentDto.AssignedToId
                 });
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SellMetalInvestment(int userId, Metals metal, int amount)
+        {
+            if (await _context.TotalAmountOfMetals.FirstOrDefaultAsync(p => p.AssignedToId == userId
+             && p.MetalType == metal) is not
+                 TotalAmountOfMetal totalAmountOfMetal || totalAmountOfMetal.TotalAmount < amount)
+            {
+                return;
+            }
+            totalAmountOfMetal.TotalAmount -= amount;
+
+            if (totalAmountOfMetal.TotalAmount == 0)
+            {
+                _context.TotalAmountOfMetals.Remove(totalAmountOfMetal);
             }
 
             await _context.SaveChangesAsync();
