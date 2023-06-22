@@ -24,9 +24,12 @@ namespace InvestApp.Controllers
         }
 
         [HttpGet("LoginUser/{mail}/{password}")]
-        public async Task<ActionResult<User?>> LoginUser(string mail, string password)
+        public async Task<ActionResult<string?>> LoginUser(string mail, string password)
         {
-            return Ok(await _userRepository.LoginUser(mail, password));
+            var token = await _userRepository.GenerateToken(mail, password);
+            if (token == null)
+                return BadRequest("Invalid username or password");
+            return Ok(token);
         }
 
         [HttpGet("GetUserById/{id}")]

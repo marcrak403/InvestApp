@@ -3,10 +3,34 @@ using InvestApp.DataAccess;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using InvestApp.Infrastructure.Services;
+using FluentValidation.AspNetCore;
+using InvestApp;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var authenticationSettings = new AuthenticationSettings();
+builder.Configuration.GetSection("JWT").Bind(authenticationSettings);
+builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = "Bearer";
+    option.DefaultScheme = "Bearer";
+    option.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = false;
+    cfg.SaveToken = true;
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = authenticationSettings.JwtIssuer,
+        ValidAudience = authenticationSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
+    };
+});
 
 builder.Services.AddControllers()
         .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
@@ -18,6 +42,7 @@ builder.Services.AddSql(builder.Configuration.GetConnectionString("InvestConnect
 builder.Services.AddRepositories();
 builder.Services.AddInvestServices();
 builder.Services.AddMapper();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
@@ -28,6 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(x => x.AllowAnyHeader()
