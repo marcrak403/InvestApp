@@ -31,7 +31,7 @@ namespace InvestApp.Infrastructure.Services
                 case Metals.XPD:
                     HttpResponseMessage responseOther =
                         await client
-                            .GetAsync($"https://api.metalpriceapi.com/v1/timeframe?api_key=ebcca32bbd82a461956c594e82d13a87&start_date={fromDate.Date.ToString("yyyy-MM-dd")}&end_date={toDate.Date.ToString("yyyy-MM-dd")}&base=USD&currencies={metal}");
+                            .GetAsync($"https://api.metalpriceapi.com/v1/timeframe?api_key=081e48958e0ee9b94c7fbe11235a32ae&start_date={fromDate.Date.ToString("yyyy-MM-dd")}&end_date={toDate.Date.ToString("yyyy-MM-dd")}&base=USD&currencies={metal}");
 
                     string responseStringOther = await responseOther.Content.ReadAsStringAsync();
                     MetalPriceApiHistory resultOther = JsonSerializer.Deserialize<MetalPriceApiHistory>(responseStringOther, options);
