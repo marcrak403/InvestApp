@@ -8,7 +8,7 @@
         public string end_date { get; set;}
         public RatesData Rates { get; set; }
         
-        public class RatesData
+        private class RatesData
         {
             public IDictionary<string, IDictionary<string, double>> Data { get; } = new Dictionary<string, IDictionary<string, double>>();
         }
