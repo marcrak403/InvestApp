@@ -2,7 +2,8 @@
 {
     public enum Metals
     {
-        Gold,
+        //Gold - złoto
+        XAU,
         //Silver - srebro
         XAG,
         //Platyna
