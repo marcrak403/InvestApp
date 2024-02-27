@@ -7,6 +7,7 @@ namespace InvestApp.Core.Constants
         EUR,
         USD,
         GBP,
-        CHF
+        CHF,
+        JPY
     }
 }
